@@ -28,7 +28,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
 .env*
@@ -39,3 +38,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large audio files - exclude from git
+*.wav
+*.mp3
+*.aac
+*.flac
+*.ogg
+*.m4a
+
+# Large image files (optional - if you want version control for images, remove these)
+# *.psd
+# *.ai

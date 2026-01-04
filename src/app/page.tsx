@@ -1,11 +1,14 @@
 import TarotCardContainer from '@/components/TarotCardContainer';
+import PageTransition from '@/components/PageTransition';
 import BioSection from '@/components/BioSection';
+import BandMembers from '@/components/BandMembers';
 import AudioPlayer from '@/components/AudioPlayer';
 import GigList from '@/components/GigList';
 
 export default function Home() {
   return (
-    <TarotCardContainer>
+    <PageTransition>
+      <TarotCardContainer>
       {/* Hero Section - Tarot Card Title */}
       <header className="text-center mb-12 border-b-2 border-tarot-border pb-8">
         {/* Top ornament */}
@@ -61,6 +64,9 @@ export default function Home() {
         </a>
       </nav>
 
+      {/* Band Member Tarot Cards */}
+      <BandMembers />
+
       {/* Main Content Sections */}
       <main>
         <BioSection />
@@ -74,6 +80,7 @@ export default function Home() {
           © {new Date().getFullYear()} Not the Jester. All rights reserved.
         </p>
       </footer>
-    </TarotCardContainer>
+      </TarotCardContainer>
+    </PageTransition>
   );
 }

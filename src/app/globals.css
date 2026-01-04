@@ -2,16 +2,16 @@
 
 /* Root CSS Variables for easy palette swapping */
 :root {
-  /* Tarot Color Palette - Improved Contrast */
-  --tarot-bg: #0f0d0c;
-  --tarot-card-bg: #faf6f1;
+  /* Tarot Color Palette - Moody & Atmospheric */
+  --tarot-bg: #0a0708;
+  --tarot-card-bg: #1a1614;
   --tarot-border: #d4af37;
-  --tarot-text-main: #1a1614;
-  --tarot-accent: #8b6914;
+  --tarot-text-main: #e8dcc8;
+  --tarot-accent: #c9a961;
   
   /* Additional utility colors */
-  --tarot-text-muted: #4a4540;
-  --tarot-hover: #b8860b;
+  --tarot-text-muted: #9d8f7f;
+  --tarot-hover: #e6c878;
 }
 
 @theme inline {
@@ -159,4 +159,31 @@ h1, h2, h3, h4, h5, h6 {
 /* Smooth Transitions */
 * {
   transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Custom Animations */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+.animate-spin-slow-reverse {
+  animation: spin-slow-reverse 8s linear infinite;
 }

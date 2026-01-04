@@ -6,41 +6,23 @@
 import { Track, Gig } from '@/types';
 
 /**
- * Mock track data
- * In production, these will come from GCS bucket via GCF
+ * Track data with actual audio files
+ * Future: These will come from GCS bucket via GCF
  */
 export const mockTracks: Track[] = [
   {
     id: '1',
-    title: 'Mystic Wanderer',
-    duration: 245, // 4:05
-    url: '#', // Placeholder URL
+    title: 'Men Before Giants',
+    duration: 287, // 4:47
+    url: '/audio/Men Before Giants - 4min47sec.aac',
     artist: 'Not the Jester',
-    album: 'Arcane Sessions',
   },
   {
     id: '2',
-    title: 'The Fool\'s Journey',
-    duration: 198, // 3:18
-    url: '#',
+    title: 'Sailing Away',
+    duration: 174, // 2:54
+    url: '/audio/Sailing Away - 2min54sec.aac',
     artist: 'Not the Jester',
-    album: 'Arcane Sessions',
-  },
-  {
-    id: '3',
-    title: 'Twilight Divination',
-    duration: 312, // 5:12
-    url: '#',
-    artist: 'Not the Jester',
-    album: 'Arcane Sessions',
-  },
-  {
-    id: '4',
-    title: 'Beneath the Velvet Moon',
-    duration: 267, // 4:27
-    url: '#',
-    artist: 'Not the Jester',
-    album: 'Arcane Sessions',
   },
 ];
 
