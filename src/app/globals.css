@@ -1,26 +1,162 @@
 @import "tailwindcss";
 
+/* Root CSS Variables for easy palette swapping */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Tarot Color Palette - Improved Contrast */
+  --tarot-bg: #0f0d0c;
+  --tarot-card-bg: #faf6f1;
+  --tarot-border: #d4af37;
+  --tarot-text-main: #1a1614;
+  --tarot-accent: #8b6914;
+  
+  /* Additional utility colors */
+  --tarot-text-muted: #4a4540;
+  --tarot-hover: #b8860b;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Tarot Color Tokens */
+  --color-tarot-bg: var(--tarot-bg);
+  --color-tarot-card-bg: var(--tarot-card-bg);
+  --color-tarot-border: var(--tarot-border);
+  --color-tarot-text-main: var(--tarot-text-main);
+  --color-tarot-accent: var(--tarot-accent);
+  --color-tarot-text-muted: var(--tarot-text-muted);
+  --color-tarot-hover: var(--tarot-hover);
+  
+  /* Font Families */
+  --font-cinzel: 'Cinzel', serif;
+  --font-cormorant: 'Cormorant Garamond', serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Base Styles */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--tarot-bg);
+  color: var(--tarot-text-main);
+  font-family: var(--font-cormorant);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Tarot Card Border Utility */
+.tarot-border {
+  border: 4px double var(--tarot-border);
+  border-radius: 12px;
+  box-shadow: 
+    0 0 0 2px var(--tarot-border),
+    inset 0 0 0 2px var(--tarot-border),
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 4px 16px rgba(212, 175, 55, 0.2);
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.02) 2px,
+      rgba(0, 0, 0, 0.02) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.02) 2px,
+      rgba(0, 0, 0, 0.02) 4px
+    );
+}
+
+/* Ornamental Corner Decorations */
+.tarot-corners {
+  position: relative;
+}
+
+.tarot-corners::before,
+.tarot-corners::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--tarot-border);
+}
+
+.tarot-corners::before {
+  top: 8px;
+  left: 8px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.tarot-corners::after {
+  top: 8px;
+  right: 8px;
+  border-left: none;
+  border-bottom: none;
+}
+
+/* Velvet Table Background Effect */
+.velvet-table {
+  background: 
+    radial-gradient(ellipse at center, rgba(42, 32, 28, 0.8) 0%, var(--tarot-bg) 70%),
+    linear-gradient(45deg, #1a1412 25%, transparent 25%),
+    linear-gradient(-45deg, #1a1412 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #1a1412 75%),
+    linear-gradient(-45deg, transparent 75%, #1a1412 75%);
+  background-size: 100% 100%, 4px 4px, 4px 4px, 4px 4px, 4px 4px;
+  background-position: 0 0, 0 0, 2px 0, 2px -2px, 0px 2px;
+}
+
+/* Ornamental Divider */
+.tarot-divider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--tarot-border) 20%,
+    var(--tarot-border) 80%,
+    transparent
+  );
+  position: relative;
+  margin: 2rem 0;
+}
+
+.tarot-divider::after {
+  content: '✦';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--tarot-card-bg);
+  color: var(--tarot-border);
+  padding: 0 1rem;
+  font-size: 1rem;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--tarot-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--tarot-accent);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--tarot-hover);
+}
+
+/* Typography Utilities */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-cinzel);
+}
+
+/* Smooth Transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
