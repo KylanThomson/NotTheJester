@@ -16,9 +16,9 @@ export default function TarotCardContainer({
   className = '',
 }: TarotCardContainerProps) {
   return (
-    <div className="min-h-screen velvet-table flex items-center justify-center p-4 md:p-8">
+    <div className="min-h-screen velvet-table flex items-center justify-center p-4 md:p-8 relative">
       {/* Tarot Card - centered with wider desktop layout */}
-      <div className={`w-full max-w-7xl bg-tarot-card-bg tarot-border tarot-corners relative shadow-2xl ${className}`}>
+      <div className={`w-full max-w-7xl bg-tarot-card-bg tarot-border tarot-corners relative shadow-2xl z-10 ${className}`}>
         {/* Ornamental top corners */}
         <div className="absolute top-0 left-0 w-16 h-16 border-l-4 border-t-4 border-tarot-border rounded-tl-lg" 
              style={{ borderStyle: 'double' }} />

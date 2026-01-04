@@ -14,6 +14,7 @@ export interface Track {
   url: string; // Future: GCS streaming URL, currently mock data
   artist?: string; // Optional artist name
   album?: string; // Optional album name
+  vttUrl?: string; // Optional VTT file for lyrics/captions
 }
 
 /**

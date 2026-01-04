@@ -39,10 +39,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Large audio files - exclude from git
+# Large audio files - exclude from git (except .aac which are small enough)
 *.wav
 *.mp3
-*.aac
 *.flac
 *.ogg
 *.m4a

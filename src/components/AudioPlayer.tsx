@@ -9,6 +9,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Track } from '@/types';
 import { mockTracks, formatDuration } from '@/lib/mockData';
+import LyricsDisplay from './LyricsDisplay';
 
 export default function AudioPlayer() {
   const [currentTrack, setCurrentTrack] = useState<Track | null>(mockTracks[0]);
@@ -85,7 +86,7 @@ export default function AudioPlayer() {
       <div className="bg-tarot-card-bg border border-tarot-border rounded-lg p-6 shadow-lg">
         {/* Current Track Info */}
         {currentTrack && (
-          <div className="mb-6 text-center">
+          <div className="mb-4 text-center">
             <h3 className="text-2xl font-bold text-tarot-text-main mb-1">
               {currentTrack.title}
             </h3>
@@ -95,8 +96,25 @@ export default function AudioPlayer() {
           </div>
         )}
 
-        {/* Audio Element (hidden) */}
-        <audio ref={audioRef} src={currentTrack?.url} />
+        {/* Audio Element with lyrics track */}
+        <audio ref={audioRef} src={currentTrack?.url}>
+          {currentTrack?.vttUrl && (
+            <track
+              kind="captions"
+              src={currentTrack.vttUrl}
+              srcLang="en"
+              label="English"
+              default
+            />
+          )}
+        </audio>
+
+        {/* Synchronized Lyrics Display - 3 line window */}
+        <LyricsDisplay
+          vttUrl={currentTrack?.vttUrl}
+          currentTime={currentTime}
+          isPlaying={isPlaying}
+        />
 
         {/* Progress Bar */}
         <div className="mb-6">

@@ -15,22 +15,22 @@ export default function BioSection() {
       
       <div className="space-y-4 text-tarot-text-main leading-relaxed">
         <p className="text-lg md:text-xl">
-          Born from the shadows of forgotten taverns and moonlit crossroads, 
-          <span className="font-semibold text-tarot-accent"> Not the Jester </span>
-          weaves tales of mystic wanderings through haunting melodies and ethereal harmonies.
+          <span className="font-semibold text-tarot-accent">Not the Jester</span> is the musical partnership 
+          of Rachael and Michael, a married couple crafting their sound from the misty forests and 
+          rocky shores of Washington State.
         </p>
         
         <p className="text-base md:text-lg text-tarot-text-muted">
-          Our music draws inspiration from ancient folklore, tarot symbolism, and the 
-          timeless dance between light and shadow. Each song is a journey through the 
-          arcane, inviting listeners to explore the depths of their own mysteries.
+          Through acoustic guitars and intertwining harmonies, they weave stories of freedom and 
+          wandering—sailing away from the petrified and predictable, seeking paths where sand 
+          meets highway and silence speaks volumes. Each song is an intimate meditation on liberation, 
+          memory, and finding meaning in an uncertain world.
         </p>
         
         <p className="text-base md:text-lg text-tarot-text-muted">
-          With instruments that echo through time—acoustic guitars, violin, and 
-          percussive rhythms—we craft soundscapes that blur the line between 
-          the mystical and the mundane. Join us as we turn the cards and reveal 
-          what fate has in store.
+          With intimate folk soundscapes and poetic lyricism, Not the Jester invites you to roll 
+          away the stone, run like buffalo toward freedom, and discover what waits beyond the 
+          next bend in the road.
         </p>
       </div>
     </section>

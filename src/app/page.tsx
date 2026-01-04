@@ -1,5 +1,6 @@
 import TarotCardContainer from '@/components/TarotCardContainer';
 import PageTransition from '@/components/PageTransition';
+import Starfield from '@/components/Starfield';
 import BioSection from '@/components/BioSection';
 import BandMembers from '@/components/BandMembers';
 import AudioPlayer from '@/components/AudioPlayer';
@@ -8,6 +9,9 @@ import GigList from '@/components/GigList';
 export default function Home() {
   return (
     <PageTransition>
+      {/* Starfield background covering entire page */}
+      <Starfield />
+      
       <TarotCardContainer>
       {/* Hero Section - Tarot Card Title */}
       <header className="text-center mb-12 border-b-2 border-tarot-border pb-8">
