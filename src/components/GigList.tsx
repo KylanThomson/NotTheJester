@@ -9,7 +9,7 @@ import { mockGigs, formatGigDate } from '@/lib/mockData';
 export default function GigList() {
   return (
     <section id="gigs" className="mb-12">
-      <h2 className="text-3xl md:text-4xl font-bold text-tarot-accent mb-6 text-center">
+      <h2 className="text-2xl md:text-4xl font-bold text-tarot-accent mb-6 text-center">
         Upcoming Shows
       </h2>
       
@@ -29,20 +29,20 @@ export default function GigList() {
           >
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
               <div className="flex-1">
-                <h3 className="text-xl font-semibold text-tarot-text-main mb-1">
+                <h3 className="text-lg md:text-xl font-semibold text-tarot-text-main mb-1">
                   {gig.venue}
                 </h3>
-                <p className="text-sm text-tarot-text-muted">
+                <p className="text-base md:text-sm text-tarot-text-muted">
                   {gig.location}
                 </p>
               </div>
               
               <div className="md:text-right">
-                <p className="text-lg font-medium text-tarot-accent">
+                <p className="text-base md:text-lg font-medium text-tarot-accent">
                   {formatGigDate(gig.date)}
                 </p>
                 {gig.time && (
-                  <p className="text-sm text-tarot-text-muted">
+                  <p className="text-base md:text-sm text-tarot-text-muted">
                     {gig.time}
                   </p>
                 )}
@@ -56,7 +56,7 @@ export default function GigList() {
                 rel="noopener noreferrer"
                 className="
                   inline-block mt-2
-                  text-sm text-tarot-accent
+                  text-base md:text-sm text-tarot-accent
                   hover:text-tarot-hover
                   underline
                   transition-colors

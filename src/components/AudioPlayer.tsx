@@ -77,7 +77,7 @@ export default function AudioPlayer() {
 
   return (
     <section id="listen" className="mb-12">
-      <h2 className="text-3xl md:text-4xl font-bold text-tarot-accent mb-6 text-center">
+      <h2 className="text-2xl md:text-4xl font-bold text-tarot-accent mb-6 text-center">
         Listen
       </h2>
       
@@ -87,10 +87,10 @@ export default function AudioPlayer() {
         {/* Current Track Info */}
         {currentTrack && (
           <div className="mb-4 text-center">
-            <h3 className="text-2xl font-bold text-tarot-text-main mb-1">
+            <h3 className="text-2xl md:text-3xl font-bold text-tarot-text-main mb-1">
               {currentTrack.title}
             </h3>
-            <p className="text-sm text-tarot-text-muted">
+            <p className="text-base md:text-sm text-tarot-text-muted">
               {currentTrack.artist}
             </p>
           </div>
@@ -126,7 +126,7 @@ export default function AudioPlayer() {
             onChange={handleProgressChange}
             className="w-full h-2 bg-tarot-accent/20 rounded-lg appearance-none cursor-pointer accent-tarot-accent"
           />
-          <div className="flex justify-between text-xs text-tarot-text-muted mt-1">
+          <div className="flex justify-between text-xl md:text-base text-tarot-accent font-semibold mt-3">
             <span>{formatDuration(Math.floor(currentTime))}</span>
             <span>{formatDuration(Math.floor(duration || currentTrack?.duration || 0))}</span>
           </div>

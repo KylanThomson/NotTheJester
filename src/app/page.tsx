@@ -5,6 +5,7 @@ import BioSection from '@/components/BioSection';
 import BandMembers from '@/components/BandMembers';
 import AudioPlayer from '@/components/AudioPlayer';
 import GigList from '@/components/GigList';
+import ContactSection from '@/components/ContactSection';
 
 export default function Home() {
   return (
@@ -32,8 +33,8 @@ export default function Home() {
           <span className="w-16 h-px bg-tarot-accent"></span>
         </div>
         
-        <p className="text-base md:text-lg text-tarot-text-muted italic font-light">
-          Mystical Folk • Tarot-Inspired
+        <p className="text-lg md:text-lg text-tarot-text-muted italic font-light">
+          Mystic Folk-Rock
         </p>
         
         {/* Bottom ornament */}
@@ -48,23 +49,30 @@ export default function Home() {
       <nav className="flex justify-center gap-6 mb-12 flex-wrap">
         <a
           href="#about"
-          className="text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
+          className="text-2xl md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
         >
           About
         </a>
         <span className="text-tarot-border">•</span>
         <a
           href="#listen"
-          className="text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
+          className="text-2xl md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
         >
           Listen
         </a>
         <span className="text-tarot-border">•</span>
         <a
           href="#gigs"
-          className="text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
+          className="text-2xl md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
         >
           Shows
+        </a>
+        <span className="text-tarot-border">•</span>
+        <a
+          href="#contact"
+          className="text-2xl md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
+        >
+          Contact
         </a>
       </nav>
 
@@ -76,6 +84,7 @@ export default function Home() {
         <BioSection />
         <AudioPlayer />
         <GigList />
+        <ContactSection />
       </main>
 
       {/* Footer */}

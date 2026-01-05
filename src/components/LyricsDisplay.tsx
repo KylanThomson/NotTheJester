@@ -6,7 +6,7 @@
  * Shows previous, current, and next lines with elegant fade effects
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 interface LyricsDisplayProps {
   vttUrl?: string;
@@ -22,12 +22,10 @@ interface CueLine {
 
 export default function LyricsDisplay({ vttUrl, currentTime }: LyricsDisplayProps) {
   const [cues, setCues] = useState<CueLine[]>([]);
-  const [currentCueIndex, setCurrentCueIndex] = useState<number>(-1);
 
   // Parse VTT file
   useEffect(() => {
     if (!vttUrl) {
-      setCues([]);
       return;
     }
 
@@ -39,15 +37,15 @@ export default function LyricsDisplay({ vttUrl, currentTime }: LyricsDisplayProp
       })
       .catch((err) => {
         console.error('Error loading VTT file:', err);
+        setCues([]);
       });
   }, [vttUrl]);
 
-  // Update current cue based on time
-  useEffect(() => {
-    const index = cues.findIndex(
+  // Calculate current cue index based on time (using useMemo to avoid setState in effect)
+  const currentCueIndex = useMemo(() => {
+    return cues.findIndex(
       (cue) => currentTime >= cue.startTime && currentTime < cue.endTime
     );
-    setCurrentCueIndex(index);
   }, [currentTime, cues]);
 
   if (!vttUrl || cues.length === 0) {
@@ -61,19 +59,19 @@ export default function LyricsDisplay({ vttUrl, currentTime }: LyricsDisplayProp
 
   return (
     <div className="my-8 py-6">
-      <div className="min-h-[120px] flex flex-col justify-center items-center space-y-2">
+      <div className="min-h-[160px] flex flex-col justify-center items-center space-y-3">
         {/* Previous line - faded */}
-        <p className="text-sm md:text-base text-tarot-text-muted/40 transition-all duration-500 h-6 italic">
+        <p className="text-base md:text-base text-tarot-text-muted/40 transition-all duration-500 min-h-[24px] italic">
           {prevLine?.text || ''}
         </p>
 
-        {/* Current line - prominent and highlighted */}
-        <p className="text-xl md:text-2xl text-tarot-accent font-semibold transition-all duration-500 h-8 text-center px-4">
-          {currentLine?.text || '♪'}
+        {/* Current line - prominent and highlighted (can be multi-line) */}
+        <p className="text-xl md:text-2xl text-tarot-accent font-semibold transition-all duration-500 min-h-[32px] max-h-[64px] text-center px-4 leading-snug">
+          {currentLine?.text || ''}
         </p>
 
         {/* Next line - slightly faded */}
-        <p className="text-sm md:text-base text-tarot-text-muted/60 transition-all duration-500 h-6 italic">
+        <p className="text-base md:text-base text-tarot-text-muted/60 transition-all duration-500 min-h-[24px] italic">
           {nextLine?.text || ''}
         </p>
       </div>
