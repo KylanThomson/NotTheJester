@@ -70,8 +70,8 @@ export default function GigList() {
       </div>
       
       {mockGigs.length === 0 && (
-        <p className="text-center text-tarot-text-muted italic">
-          No upcoming shows at this time. Check back soon for new dates.
+        <p className="text-center text-2xl md:text-3xl font-semibold text-tarot-accent py-8">
+          COMING SOON
         </p>
       )}
     </section>

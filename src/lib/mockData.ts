@@ -40,48 +40,7 @@ export const mockTracks: Track[] = [
  * Mock gig data
  * In production, this might come from a CMS or database via GCF
  */
-export const mockGigs: Gig[] = [
-  {
-    id: '1',
-    date: '2026-02-14',
-    venue: 'The Mystic Tavern',
-    location: 'Portland, OR',
-    time: '8:00 PM',
-    ticketUrl: '#',
-  },
-  {
-    id: '2',
-    date: '2026-02-28',
-    venue: 'Moonlight Bar & Grill',
-    location: 'Seattle, WA',
-    time: '9:00 PM',
-    ticketUrl: '#',
-  },
-  {
-    id: '3',
-    date: '2026-03-15',
-    venue: 'The Fortune Teller\'s Lounge',
-    location: 'San Francisco, CA',
-    time: '7:30 PM',
-    ticketUrl: '#',
-  },
-  {
-    id: '4',
-    date: '2026-04-02',
-    venue: 'Crystal Palace Music Hall',
-    location: 'Los Angeles, CA',
-    time: '8:00 PM',
-    ticketUrl: '#',
-  },
-  {
-    id: '5',
-    date: '2026-04-20',
-    venue: 'The Alchemist\'s Den',
-    location: 'Austin, TX',
-    time: '9:00 PM',
-    ticketUrl: '#',
-  },
-];
+export const mockGigs: Gig[] = [];
 
 /**
  * Utility function to format duration (seconds) to MM:SS

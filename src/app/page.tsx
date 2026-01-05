@@ -6,6 +6,7 @@ import BandMembers from '@/components/BandMembers';
 import AudioPlayer from '@/components/AudioPlayer';
 import GigList from '@/components/GigList';
 import ContactSection from '@/components/ContactSection';
+import QuoteSection from '@/components/QuoteSection';
 
 export default function Home() {
   return (
@@ -86,6 +87,9 @@ export default function Home() {
         <GigList />
         <ContactSection />
       </main>
+
+      {/* Inspirational Quote Section */}
+      <QuoteSection />
 
       {/* Footer */}
       <footer className="text-center mt-12 pt-8 border-t border-tarot-border">
