@@ -16,7 +16,7 @@ export default function Home() {
       
       <TarotCardContainer>
       {/* Hero Section - Tarot Card Title */}
-      <header className="text-center mb-12 border-b-2 border-tarot-border pb-8">
+      <header className="text-center mb-2 md:mb-12 border-b-2 border-tarot-border pb-8">
         {/* Top ornament */}
         <div className="flex items-center justify-center gap-3 mb-6 text-tarot-border">
           <span className="text-2xl">❧</span>
@@ -47,31 +47,31 @@ export default function Home() {
       </header>
 
       {/* Navigation Links */}
-      <nav className="flex justify-center gap-6 mb-12 flex-wrap">
+      <nav className="flex justify-center gap-3 md:gap-6 mb-6 md:mb-12 flex-wrap">
         <a
           href="#about"
-          className="text-2xl md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
+          className="text-base md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
         >
           About
         </a>
-        <span className="text-tarot-border">•</span>
+        <span className="text-tarot-border text-sm md:text-base">•</span>
         <a
           href="#listen"
-          className="text-2xl md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
+          className="text-base md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
         >
           Listen
         </a>
-        <span className="text-tarot-border">•</span>
+        <span className="text-tarot-border text-sm md:text-base">•</span>
         <a
           href="#gigs"
-          className="text-2xl md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
+          className="text-base md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
         >
           Shows
         </a>
-        <span className="text-tarot-border">•</span>
+        <span className="text-tarot-border text-sm md:text-base">•</span>
         <a
           href="#contact"
-          className="text-2xl md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
+          className="text-base md:text-3xl text-tarot-accent hover:text-tarot-hover transition-colors font-medium"
         >
           Contact
         </a>
