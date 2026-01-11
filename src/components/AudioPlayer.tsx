@@ -17,8 +17,47 @@ export default function AudioPlayer() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.7);
+  const [trackDurations, setTrackDurations] = useState<{ [key: string]: number }>({});
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Pre-load all track durations on component mount
+  useEffect(() => {
+    const loadTrackDurations = async () => {
+      const durations: { [key: string]: number } = {};
+      
+      for (const track of mockTracks) {
+        const audio = new Audio(track.url);
+        await new Promise<void>((resolve) => {
+          audio.addEventListener('loadedmetadata', () => {
+            durations[track.id] = audio.duration;
+            resolve();
+          });
+          audio.addEventListener('error', () => {
+            console.error(`Failed to load duration for ${track.title}`);
+            resolve();
+          });
+        });
+      }
+      
+      setTrackDurations(durations);
+    };
+    
+    loadTrackDurations();
+  }, []);
+
+  // Play next track in sequence, looping back to start
+  const playNextTrack = () => {
+    if (!currentTrack) return;
+    
+    const currentIndex = mockTracks.findIndex(track => track.id === currentTrack.id);
+    const nextIndex = (currentIndex + 1) % mockTracks.length; // Loop back to 0 when reaching the end
+    const nextTrack = mockTracks[nextIndex];
+    
+    setCurrentTrack(nextTrack);
+    setCurrentTime(0);
+    setIsPlaying(true);
+  };
 
   // Update current time as audio plays
   useEffect(() => {
@@ -26,18 +65,35 @@ export default function AudioPlayer() {
     if (!audio) return;
 
     const updateTime = () => setCurrentTime(audio.currentTime);
-    const updateDuration = () => setDuration(audio.duration);
+    const updateDuration = () => {
+      const newDuration = audio.duration;
+      setDuration(newDuration);
+      // Store the duration for this track
+      if (currentTrack && !isNaN(newDuration)) {
+        setTrackDurations(prev => ({ ...prev, [currentTrack.id]: newDuration }));
+      }
+    };
     
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateDuration);
-    audio.addEventListener('ended', () => setIsPlaying(false));
+    audio.addEventListener('ended', playNextTrack);
 
     return () => {
       audio.removeEventListener('timeupdate', updateTime);
       audio.removeEventListener('loadedmetadata', updateDuration);
-      audio.removeEventListener('ended', () => setIsPlaying(false));
+      audio.removeEventListener('ended', playNextTrack);
     };
   }, [currentTrack]);
+
+  // Auto-play when track changes and isPlaying is true
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !currentTrack) return;
+
+    if (isPlaying) {
+      audio.play().catch(err => console.error('Auto-play failed:', err));
+    }
+  }, [currentTrack, isPlaying]);
 
   const togglePlayPause = () => {
     const audio = audioRef.current;
@@ -128,7 +184,7 @@ export default function AudioPlayer() {
           />
           <div className="flex justify-between text-xl md:text-base text-tarot-accent font-semibold mt-3">
             <span>{formatDuration(Math.floor(currentTime))}</span>
-            <span>{formatDuration(Math.floor(duration || currentTrack?.duration || 0))}</span>
+            <span>{formatDuration(Math.floor(duration || 0))}</span>
           </div>
         </div>
 
@@ -184,7 +240,9 @@ export default function AudioPlayer() {
                   {track.title}
                 </span>
                 <span className="text-sm text-tarot-text-muted">
-                  {formatDuration(track.duration)}
+                  {trackDurations[track.id] 
+                    ? formatDuration(Math.floor(trackDurations[track.id]))
+                    : '--:--'}
                 </span>
               </div>
             </button>

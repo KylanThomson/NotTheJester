@@ -15,7 +15,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Trigger animation after mount
+    // Trigger animation after mount - only runs client-side
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 100);
@@ -25,7 +25,7 @@ export default function PageTransition({ children }: PageTransitionProps) {
 
   return (
     <>
-      {/* Mystical loading overlay */}
+      {/* Mystical loading overlay - starts visible on both server and client */}
       <div
         className={`
           fixed inset-0 z-50 bg-tarot-bg

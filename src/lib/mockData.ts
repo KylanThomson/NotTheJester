@@ -13,7 +13,6 @@ export const mockTracks: Track[] = [
   {
     id: '1',
     title: 'Sailing Away',
-    duration: 174, // 2:54
     url: '/audio/Sailing Away - 2min54sec.aac',
     vttUrl: '/audio/Sailing_Away_-_1.1.26-1_eng.vtt',
     artist: 'Not the Jester',
@@ -21,7 +20,6 @@ export const mockTracks: Track[] = [
   {
     id: '2',
     title: 'Men Before Giants',
-    duration: 287, // 4:47
     url: '/audio/Men Before Giants - 4min47sec.aac',
     vttUrl: '/audio/Men_Before_Giants_-_01.01.2026-1_eng.vtt',
     artist: 'Not the Jester',
@@ -29,7 +27,6 @@ export const mockTracks: Track[] = [
   {
     id: '3',
     title: 'Back to the Groove',
-    duration: 240, // 4:00 (estimated)
     url: '/audio/Back to the Groove - 1.2.2026-4.aac',
     vttUrl: '/audio/Back_to_the_Groove - 1.1.26-1_eng.vtt',
     artist: 'Not the Jester',

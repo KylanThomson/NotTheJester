@@ -10,7 +10,7 @@
 export interface Track {
   id: string;
   title: string;
-  duration: number; // Duration in seconds
+  duration?: number; // Optional: Duration in seconds (can be dynamically loaded from audio file)
   url: string; // Future: GCS streaming URL, currently mock data
   artist?: string; // Optional artist name
   album?: string; // Optional album name
