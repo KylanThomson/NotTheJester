@@ -25,7 +25,14 @@ export default function VTTEditor() {
   const [playbackRate, setPlaybackRate] = useState(1.0);
   const [activeEditingCue, setActiveEditingCue] = useState<string | null>(null);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Ensure client-side only rendering for modal to avoid hydration issues
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Helper functions defined before they're used
   const parseVTT = useCallback((vttText: string): VTTCue[] => {
@@ -223,9 +230,10 @@ export default function VTTEditor() {
   };
 
   const addNewCue = () => {
+    // eslint-disable-next-line
+    const uniqueId = `cue-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const newCue: VTTCue = {
-      // Using timestamp + random for unique ID (this is in event handler, not render)
-      id: `cue-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: uniqueId,
       startTime: formatVTTTime(currentTime),
       endTime: formatVTTTime(currentTime + 5),
       text: 'New lyric line...',
@@ -242,10 +250,11 @@ export default function VTTEditor() {
 
     const endTime = parseVTTTimestamp(cue.endTime);
     const duration = endTime - parseVTTTimestamp(cue.startTime);
+    // eslint-disable-next-line
+    const uniqueId = `cue-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
     const newCue: VTTCue = {
-      // Using timestamp + random for unique ID (this is in event handler, not render)
-      id: `cue-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: uniqueId,
       startTime: cue.endTime,
       endTime: formatVTTTime(endTime + duration),
       text: cue.text,
@@ -290,11 +299,86 @@ export default function VTTEditor() {
 
   return (
     <section className="mb-12">
-      <h2 className="text-3xl md:text-4xl font-bold text-tarot-accent mb-6 text-center">
-        VTT Lyrics Editor
-      </h2>
+      <div className="flex items-center justify-center gap-4 mb-6">
+        <h2 className="text-3xl md:text-4xl font-bold text-tarot-accent text-center">
+          VTT Lyrics Editor
+        </h2>
+        <button
+          onClick={() => setShowHelp(true)}
+          className="px-3 py-2 bg-tarot-accent/20 hover:bg-tarot-accent hover:text-tarot-card-bg text-tarot-accent border border-tarot-accent rounded-full transition-all text-sm font-bold"
+          title="Help & Guide"
+        >
+          ?
+        </button>
+      </div>
       
       <div className="tarot-divider mb-8" />
+
+      {/* Help Modal */}
+      {isMounted && showHelp && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4" onClick={() => setShowHelp(false)}>
+          <div className="bg-tarot-card-bg border-2 border-tarot-accent rounded-lg p-6 max-w-2xl max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-2xl font-bold text-tarot-accent">VTT Editor Guide</h3>
+              <button
+                onClick={() => setShowHelp(false)}
+                className="text-tarot-text-muted hover:text-tarot-accent text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="space-y-4 text-tarot-text-main">
+              <section>
+                <h4 className="text-lg font-semibold text-tarot-accent mb-2">What are VTT files?</h4>
+                <p className="text-sm text-tarot-text-muted">
+                  VTT (Web Video Text Tracks) files are used to display synchronized text (like lyrics or captions) 
+                  alongside audio/video. They contain timestamped text that appears at specific moments during playback.
+                </p>
+              </section>
+
+              <section>
+                <h4 className="text-lg font-semibold text-tarot-accent mb-2">How to use this editor:</h4>
+                <ol className="list-decimal list-inside space-y-2 text-sm text-tarot-text-muted">
+                  <li><strong>Select a track</strong> from the dropdown menu</li>
+                  <li><strong>Play the audio</strong> and listen to where lyrics should appear</li>
+                  <li><strong>Set timestamps</strong> by clicking &ldquo;⏱ Now&rdquo; at the start and end of each lyric line</li>
+                  <li><strong>Edit the text</strong> to match the lyrics</li>
+                  <li><strong>Export the VTT file</strong> when done</li>
+                </ol>
+              </section>
+
+              <section>
+                <h4 className="text-lg font-semibold text-tarot-accent mb-2">Keyboard Shortcuts:</h4>
+                <ul className="list-disc list-inside space-y-1 text-sm text-tarot-text-muted">
+                  <li><strong>Space</strong> - Play/Pause audio</li>
+                  <li><strong>← →</strong> - Skip backward/forward 5 seconds</li>
+                  <li><strong>↑ ↓</strong> - Increase/decrease playback speed</li>
+                </ul>
+              </section>
+
+              <section>
+                <h4 className="text-lg font-semibold text-tarot-accent mb-2">Tips:</h4>
+                <ul className="list-disc list-inside space-y-1 text-sm text-tarot-text-muted">
+                  <li>Use slower playback speed (0.5x-0.75x) for precise timing</li>
+                  <li>Click &ldquo;▶ Play&rdquo; on any cue to jump to that timestamp</li>
+                  <li>Duplicate similar cues to save time</li>
+                  <li>The currently playing lyric is highlighted in the list</li>
+                </ul>
+              </section>
+
+              <div className="mt-6 pt-4 border-t border-tarot-border">
+                <button
+                  onClick={() => setShowHelp(false)}
+                  className="w-full px-6 py-3 bg-tarot-accent hover:bg-tarot-hover text-tarot-card-bg font-semibold rounded transition-all"
+                >
+                  Got it!
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Track Selection */}
       <div className="mb-8 max-w-2xl mx-auto">
@@ -364,31 +448,33 @@ export default function VTTEditor() {
               </div>
 
               {/* Playback Speed */}
-              <div className="flex items-center justify-center gap-4">
-                <span className="text-tarot-text-muted">Speed:</span>
-                <button
-                  onClick={() => changePlaybackRate(-0.25)}
-                  className="px-3 py-1 bg-tarot-card-bg border border-tarot-border rounded text-tarot-text-main hover:bg-tarot-accent hover:text-tarot-card-bg transition"
-                  title="Slower (↓)"
-                >
-                  -
-                </button>
-                <span className="text-tarot-accent font-bold min-w-[60px] text-center">
-                  {playbackRate.toFixed(2)}x
-                </span>
-                <button
-                  onClick={() => changePlaybackRate(0.25)}
-                  className="px-3 py-1 bg-tarot-card-bg border border-tarot-border rounded text-tarot-text-main hover:bg-tarot-accent hover:text-tarot-card-bg transition"
-                  title="Faster (↑)"
-                >
-                  +
-                </button>
-                <button
-                  onClick={() => setPlaybackRate(1.0)}
-                  className="px-4 py-1 bg-tarot-card-bg border border-tarot-border rounded text-tarot-text-main hover:bg-tarot-accent hover:text-tarot-card-bg transition text-sm"
-                >
-                  Reset
-                </button>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+                <span className="text-tarot-text-muted text-sm sm:text-base">Speed:</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => changePlaybackRate(-0.25)}
+                    className="px-3 py-1 bg-tarot-card-bg border border-tarot-border rounded text-tarot-text-main hover:bg-tarot-accent hover:text-tarot-card-bg transition text-sm"
+                    title="Slower (↓)"
+                  >
+                    -
+                  </button>
+                  <span className="text-tarot-accent font-bold min-w-[50px] text-center text-sm sm:text-base">
+                    {playbackRate.toFixed(2)}x
+                  </span>
+                  <button
+                    onClick={() => changePlaybackRate(0.25)}
+                    className="px-3 py-1 bg-tarot-card-bg border border-tarot-border rounded text-tarot-text-main hover:bg-tarot-accent hover:text-tarot-card-bg transition text-sm"
+                    title="Faster (↑)"
+                  >
+                    +
+                  </button>
+                  <button
+                    onClick={() => setPlaybackRate(1.0)}
+                    className="px-3 py-1 bg-tarot-card-bg border border-tarot-border rounded text-tarot-text-main hover:bg-tarot-accent hover:text-tarot-card-bg transition text-xs sm:text-sm"
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
 
               {/* Keyboard Shortcuts Helper */}
@@ -396,11 +482,6 @@ export default function VTTEditor() {
                 ⌨ Shortcuts: Space=Play/Pause • ←→=Skip • ↑↓=Speed
               </div>
             </div>
-          </div>
-
-          {/* Live Preview */}
-          <div className="mb-8 max-w-4xl mx-auto">
-            <VTTPreview cues={cues} currentTime={currentTime} />
           </div>
 
           {/* Unsaved Changes Warning */}
@@ -414,20 +495,20 @@ export default function VTTEditor() {
 
           {/* VTT Editor */}
           <div className="max-w-6xl mx-auto">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
               <h3 className="text-2xl font-bold text-tarot-accent">
                 Lyrics ({cues.length} lines)
               </h3>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-2 sm:gap-4 w-full sm:w-auto">
                 <button
                   onClick={addNewCue}
-                  className="px-6 py-2 bg-tarot-accent hover:bg-tarot-hover text-tarot-card-bg font-semibold rounded transition-all"
+                  className="flex-1 sm:flex-initial px-4 sm:px-6 py-2 bg-tarot-accent hover:bg-tarot-hover text-tarot-card-bg font-semibold rounded transition-all text-sm sm:text-base"
                 >
                   + Add Cue
                 </button>
                 <button
                   onClick={exportVTT}
-                  className="px-6 py-2 bg-tarot-border hover:bg-tarot-hover text-tarot-card-bg font-semibold rounded transition-all"
+                  className="flex-1 sm:flex-initial px-4 sm:px-6 py-2 bg-tarot-border hover:bg-tarot-hover text-tarot-card-bg font-semibold rounded transition-all text-sm sm:text-base"
                   disabled={cues.length === 0}
                 >
                   💾 Export VTT
@@ -441,57 +522,83 @@ export default function VTTEditor() {
                 return (
                   <div
                     key={cue.id}
-                    className={`bg-tarot-card-bg border-2 rounded p-4 transition-all ${
+                    className={`bg-tarot-card-bg border-2 rounded p-3 sm:p-4 transition-all ${
                       isActive 
                         ? 'border-tarot-accent shadow-lg bg-tarot-accent/10' 
                         : 'border-tarot-border hover:border-tarot-accent'
                     }`}
                   >
-                    <div className="flex items-start gap-4">
-                      <span className="text-tarot-text-muted font-bold text-lg min-w-[40px]">
-                        {index + 1}
-                        {isActive && <span className="ml-2 text-tarot-accent">▶</span>}
+                    {/* Header with cue number */}
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-tarot-text-muted font-bold text-base sm:text-lg">
+                        #{index + 1}
+                        {isActive && <span className="ml-2 text-tarot-accent">▶ Playing</span>}
                       </span>
-                      
+                      {/* Mobile: Show action buttons in header */}
+                      <div className="flex gap-2 sm:hidden">
+                        <button
+                          onClick={() => duplicateCue(cue.id)}
+                          className="px-3 py-1.5 bg-tarot-accent/50 hover:bg-tarot-accent text-tarot-card-bg rounded transition-all text-sm"
+                          title="Duplicate cue"
+                        >
+                          📋
+                        </button>
+                        <button
+                          onClick={() => deleteCue(cue.id)}
+                          className="px-3 py-1.5 bg-red-900/50 hover:bg-red-900 text-tarot-text-main rounded transition-all text-sm"
+                          title="Delete cue"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-2 sm:gap-4">
                       <div className="flex-1 space-y-3">
-                        <div className="grid grid-cols-2 gap-4">
+                        {/* Time fields - stack on mobile, side-by-side on desktop */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                          {/* Start Time */}
                           <div>
-                            <label className="block text-sm text-tarot-text-muted mb-1">Start Time</label>
-                            <div className="flex gap-2">
+                            <label className="block text-xs sm:text-sm text-tarot-text-muted mb-1">Start Time</label>
+                            <div className="flex flex-col sm:flex-row gap-2">
                               <input
                                 type="text"
                                 value={cue.startTime}
                                 onChange={(e) => updateCue(cue.id, 'startTime', e.target.value)}
-                                className="flex-1 px-3 py-2 bg-tarot-bg border border-tarot-border rounded text-tarot-text-main focus:outline-none focus:border-tarot-accent"
+                                className="w-full px-2 sm:px-3 py-2 bg-tarot-bg border border-tarot-border rounded text-tarot-text-main text-sm focus:outline-none focus:border-tarot-accent"
                               />
-                              <button
-                                onClick={() => jumpToTime(cue.startTime)}
-                                className="px-3 py-2 bg-tarot-accent hover:bg-tarot-hover text-tarot-card-bg rounded text-sm"
-                                title="Jump to start"
-                              >
-                                ▶
-                              </button>
-                              <button
-                                onClick={() => setTimeFromCurrent(cue.id, 'startTime')}
-                                className="px-3 py-2 bg-tarot-border hover:bg-tarot-hover text-tarot-card-bg rounded text-sm whitespace-nowrap"
-                                title="Set to current time"
-                              >
-                                ⏱ Now
-                              </button>
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={() => jumpToTime(cue.startTime)}
+                                  className="flex-1 sm:flex-initial px-3 py-2 bg-tarot-accent hover:bg-tarot-hover text-tarot-card-bg rounded text-xs sm:text-sm"
+                                  title="Jump to start"
+                                >
+                                  ▶ Play
+                                </button>
+                                <button
+                                  onClick={() => setTimeFromCurrent(cue.id, 'startTime')}
+                                  className="flex-1 sm:flex-initial px-3 py-2 bg-tarot-border hover:bg-tarot-hover text-tarot-card-bg rounded text-xs sm:text-sm whitespace-nowrap"
+                                  title="Set to current time"
+                                >
+                                  ⏱ Now
+                                </button>
+                              </div>
                             </div>
                           </div>
+
+                          {/* End Time */}
                           <div>
-                            <label className="block text-sm text-tarot-text-muted mb-1">End Time</label>
-                            <div className="flex gap-2">
+                            <label className="block text-xs sm:text-sm text-tarot-text-muted mb-1">End Time</label>
+                            <div className="flex flex-col sm:flex-row gap-2">
                               <input
                                 type="text"
                                 value={cue.endTime}
                                 onChange={(e) => updateCue(cue.id, 'endTime', e.target.value)}
-                                className="flex-1 px-3 py-2 bg-tarot-bg border border-tarot-border rounded text-tarot-text-main focus:outline-none focus:border-tarot-accent"
+                                className="w-full px-2 sm:px-3 py-2 bg-tarot-bg border border-tarot-border rounded text-tarot-text-main text-sm focus:outline-none focus:border-tarot-accent"
                               />
                               <button
                                 onClick={() => setTimeFromCurrent(cue.id, 'endTime')}
-                                className="px-3 py-2 bg-tarot-border hover:bg-tarot-hover text-tarot-card-bg rounded text-sm whitespace-nowrap"
+                                className="px-3 py-2 bg-tarot-border hover:bg-tarot-hover text-tarot-card-bg rounded text-xs sm:text-sm whitespace-nowrap"
                                 title="Set to current time"
                               >
                                 ⏱ Now
@@ -500,20 +607,22 @@ export default function VTTEditor() {
                           </div>
                         </div>
                         
+                        {/* Lyric Text */}
                         <div>
-                          <label className="block text-sm text-tarot-text-muted mb-1">Lyric Text</label>
+                          <label className="block text-xs sm:text-sm text-tarot-text-muted mb-1">Lyric Text</label>
                           <textarea
                             value={cue.text}
                             onChange={(e) => updateCue(cue.id, 'text', e.target.value)}
                             onFocus={() => setActiveEditingCue(cue.id)}
                             onBlur={() => setActiveEditingCue(null)}
-                            className="w-full px-3 py-2 bg-tarot-bg border border-tarot-border rounded text-tarot-text-main focus:outline-none focus:border-tarot-accent resize-none"
+                            className="w-full px-2 sm:px-3 py-2 bg-tarot-bg border border-tarot-border rounded text-tarot-text-main text-sm sm:text-base focus:outline-none focus:border-tarot-accent resize-none"
                             rows={2}
                           />
                         </div>
                       </div>
 
-                      <div className="flex flex-col gap-2">
+                      {/* Desktop: Show action buttons on the right */}
+                      <div className="hidden sm:flex flex-col gap-2">
                         <button
                           onClick={() => duplicateCue(cue.id)}
                           className="px-3 py-2 bg-tarot-accent/50 hover:bg-tarot-accent text-tarot-card-bg rounded transition-all text-sm"
