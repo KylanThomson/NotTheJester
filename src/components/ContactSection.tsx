@@ -1,8 +1,10 @@
 /**
  * ContactSection Component
- * Displays contact information with email and phone
+ * Displays contact information with email and phone, plus newsletter signup
  * Server component - no interactivity needed
  */
+
+import NewsletterSignup from './NewsletterSignup';
 
 export default function ContactSection() {
   return (
@@ -12,6 +14,11 @@ export default function ContactSection() {
       </h2>
       
       <div className="tarot-divider mb-8" />
+      
+      {/* Newsletter Signup */}
+      <div className="mb-8">
+        <NewsletterSignup />
+      </div>
       
       <div className="space-y-6 text-tarot-text-main">
         {/* Email */}
